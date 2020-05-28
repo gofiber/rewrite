@@ -1,3 +1,9 @@
+# Rewrite
+
+![Test](https://github.com/gofiber/rewrite/workflows/Test/badge.svg)
+![Security](https://github.com/gofiber/rewrite/workflows/Security/badge.svg)
+![Linter](https://github.com/gofiber/rewrite/workflows/Linter/badge.svg)
+
 ### Install
 ```
 go get -u github.com/gofiber/fiber
