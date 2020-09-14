@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 // Config ...
@@ -37,7 +37,7 @@ type Config struct {
 }
 
 // New ...
-func New(config ...Config) func(*fiber.Ctx) {
+func New(config ...Config) fiber.Handler {
 	// Init config
 	var cfg Config
 	if len(config) > 0 {
@@ -55,11 +55,10 @@ func New(config ...Config) func(*fiber.Ctx) {
 		cfg.rulesRegex[regexp.MustCompile(k)] = v
 	}
 	// Middleware function
-	return func(c *fiber.Ctx) {
+	return func(c *fiber.Ctx) error {
 		// Filter request to skip middleware
 		if cfg.Filter != nil && cfg.Filter(c) {
-			c.Next()
-			return
+			return c.Next()
 		}
 		// Rewrite
 		for k, v := range cfg.rulesRegex {
@@ -69,7 +68,7 @@ func New(config ...Config) func(*fiber.Ctx) {
 				break
 			}
 		}
-		c.Next()
+		return c.Next()
 	}
 }
 

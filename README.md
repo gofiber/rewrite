@@ -8,16 +8,16 @@
 
 ### Install
 ```
-go get -u github.com/gofiber/fiber
-go get -u github.com/gofiber/rewrite
+go get -u github.com/gofiber/fiber/v2
+go get -u github.com/gofiber/rewrite/v2
 ```
 ### Example
 ```go
 package main
 
 import (
-  "github.com/gofiber/fiber"
-  "github.com/gofiber/rewrite"
+  "github.com/gofiber/fiber/v2"
+  "github.com/gofiber/rewrite/v2"
 )
 
 func main() {
@@ -30,14 +30,14 @@ func main() {
     },
   }))
   
-  app.Get("/new", func(c *fiber.Ctx) {
-    c.Send("Hello, World!")
+  app.Get("/new", func(c *fiber.Ctx) error {
+    return c.SendString("Hello, World!")
   })
-  app.Get("/new/*", func(c *fiber.Ctx) {
-    c.Send("Wildcard: ", c.Params("*"))
+  app.Get("/new/*", func(c *fiber.Ctx) error {
+    return c.SendString("Wildcard: " + c.Params("*"))
   })
   
-  app.Listen(3000)
+  app.Listen(":3000")
 }
 
 ```
