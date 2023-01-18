@@ -17,6 +17,7 @@ type Config struct {
 	// Filter defines a function to skip middleware.
 	// Optional. Default: nil
 	Filter func(*fiber.Ctx) bool
+
 	// Rules defines the URL path rewrite rules. The values captured in asterisk can be
 	// retrieved by index e.g. $1, $2 and so on.
 	// Required. Example:
@@ -25,14 +26,7 @@ type Config struct {
 	// "/js/*":             "/public/javascripts/$1",
 	// "/users/*/orders/*": "/user/$1/order/$2",
 	Rules map[string]string
-	// // Redirect determns if the client should be redirected
-	// // By default this is disabled and urls are rewritten on the server
-	// // Optional. Default: false
-	// Redirect bool
-	// // The status code when redirecting
-	// // This is ignored if Redirect is disabled
-	// // Optional. Default: 302 Temporary Redirect
-	// StatusCode int
+
 	rulesRegex map[*regexp.Regexp]string
 }
 
@@ -40,14 +34,15 @@ type Config struct {
 func New(config ...Config) fiber.Handler {
 	// Init config
 	var cfg Config
+
 	if len(config) > 0 {
 		cfg = config[0]
+	} else {
+		cfg = Config{}
 	}
-	// if cfg.StatusCode == 0 {
-	// 	cfg.StatusCode = 302 // Temporary Redirect
-	// }
-	cfg = config[0]
+
 	cfg.rulesRegex = map[*regexp.Regexp]string{}
+
 	// Initialize
 	for k, v := range cfg.Rules {
 		k = strings.Replace(k, "*", "(.*)", -1)
