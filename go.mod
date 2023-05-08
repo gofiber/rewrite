@@ -2,4 +2,4 @@ module github.com/gofiber/rewrite/v2
 
 go 1.16
 
-require github.com/gofiber/fiber/v2 v2.44.0
+require github.com/gofiber/fiber/v2 v2.45.0
